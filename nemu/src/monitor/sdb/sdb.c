@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "utils.h"
 
 static int is_batch_mode = false;
 
@@ -49,6 +50,8 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  //修改 nemu_state 以正常退出
+  nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
