@@ -59,3 +59,6 @@ else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
 endif
+
+# C optimization flags
+COPT =-O0 -funroll-loops
