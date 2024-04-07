@@ -14,7 +14,7 @@
 #**************************************************************************************/
 
 # C optimization flags
-COPT =-O0 -funroll-loops
+# COPT =-O0 -funroll-loops
 
 
 # Sanity check

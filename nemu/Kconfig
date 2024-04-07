@@ -90,7 +90,7 @@ config CC
 
 choice
   prompt "Optimization Level"
-  default CC_O0
+  default CC_O2
 config CC_O0
   bool "O0"
 config CC_O1
