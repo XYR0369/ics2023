@@ -13,6 +13,10 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
+# C optimization flags
+COPT =-O0 -funroll-loops
+
+
 # Sanity check
 ifeq ($(wildcard $(NEMU_HOME)/src/nemu-main.c),)
   $(error NEMU_HOME=$(NEMU_HOME) is not a NEMU repo)
@@ -60,5 +64,3 @@ else
 include $(NEMU_HOME)/scripts/native.mk
 endif
 
-# C optimization flags
-COPT =-O0 -funroll-loops
