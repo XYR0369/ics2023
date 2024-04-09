@@ -13,9 +13,8 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
-# C optimization flags
+# C optimization flags [not necessary]
 # COPT =-O0 -funroll-loops
-
 
 # Sanity check
 ifeq ($(wildcard $(NEMU_HOME)/src/nemu-main.c),)
