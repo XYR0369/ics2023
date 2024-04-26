@@ -22,13 +22,18 @@
 static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
 static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
-// pmem 是实例化 memory 指针的数组：内存大小为 CONFIG_MSIZE, 因此地址的数量也是这么多
-// __attribute__((aligned(4096))): 这是GCC编译器的一个特性，用于指定变量的最小对齐字节数。在这个例子中，aligned(4096)意味着pmem数组应该被对齐到至少4096字节（4KB）的边界。对齐可以提高访问数组元素的效率，尤其是在需要处理大的数据块或在硬件接口上时。
+// pmem 是对 memory 的实例化，
+//我们可以把内存看作一段连续的存储空间, 而内存又是字节编址的(即一个内存位置存放一个字节的数据), 在C语言中我们就很自然地使用一个 uint8_t 类型的数组来对内存进行模拟. NEMU 默认为客户计算机提供 128MB 的物理内存（这里的 CONFIG_MSIZE 默认以 byte 为单位，因此可以直接用在这里的数组大小上，实际是 0x8000000）
+
+// PG_ALIGN 展开为 __attribute__((aligned(4096))): 这是GCC编译器的一个特性，用于指定变量的最小对齐字节数。在这个例子中，aligned(4096)意味着pmem数组应该被对齐到至少4096字节（4KB）的边界。对齐可以提高访问数组元素的效率，尤其是在需要处理大的数据块或在硬件接口上时。
+
 #endif
 
 uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 // uint8_t* 说明返回的是 指针的 地址，pmem 是数组名，由于地址偏移（CONFIG_MBASE）的存在，实际返回的是对应内存空间的地址
-// 内存空间以 byte 位基本单位，因此返回的是 uint8_t* 类型，这和 pmem 的 uint8_t 的元素类型对应
+// 内存空间以 byte 为基本单位，因此返回的是 uint8_t* 类型，这和 pmem 的 uint8_t 的元素类型对应;
+// 这类似于 void* 类型，在 host_read 函数中根据变量的类型被转换
+
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 static word_t pmem_read(paddr_t addr, int len) {
