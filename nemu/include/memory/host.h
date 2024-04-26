@@ -18,6 +18,7 @@
 
 #include <common.h>
 
+// 根据不同的 len，决定如何解释地址，即一次访问多大空间的数据
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
     case 1: return *(uint8_t  *)addr;

@@ -36,6 +36,7 @@
 #endif
 
 typedef MUXDEF(CONFIG_ISA64, uint64_t, uint32_t) word_t;
+// 如果未定义 64 位系统，则 word_t 为 uint32_t，表示 32 位无符号整数，可以用于表示 32 位系统下的地址值
 typedef MUXDEF(CONFIG_ISA64, int64_t, int32_t)  sword_t;
 #define FMT_WORD MUXDEF(CONFIG_ISA64, "0x%016" PRIx64, "0x%08" PRIx32)
 
