@@ -19,6 +19,8 @@
 #include <common.h>
 
 // 根据不同的 len，决定如何解释地址，即一次访问多大空间的数据
+// 返回的是 word_t，可能发生隐式类型转换，进行了数据宽度的拓展，对应数据存储在 word_t 的低地址处
+
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
     case 1: return *(uint8_t  *)addr;
@@ -31,7 +33,7 @@ static inline word_t host_read(void *addr, int len) {
 
 static inline void host_write(void *addr, int len, word_t data) {
   switch (len) {
-    case 1: *(uint8_t  *)addr = data; return;
+    case 1: *(uint8_t  *)addr = data; return;     // 隐式类型转换，这里进行了截断
     case 2: *(uint16_t *)addr = data; return;
     case 4: *(uint32_t *)addr = data; return;
     IFDEF(CONFIG_ISA64, case 8: *(uint64_t *)addr = data; return);

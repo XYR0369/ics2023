@@ -71,6 +71,6 @@ static int decode_exec(Decode *s) {
 }
 
 int isa_exec_once(Decode *s) {
-  s->isa.inst.val = inst_fetch(&s->snpc, 4);    // 这里为何固定 length 为 4 ?
+  s->isa.inst.val = inst_fetch(&s->snpc, 4);    // 这里为何固定 length 为 4, 因为 riscv-32 指令基本是 32位
   return decode_exec(s);
 }
