@@ -15,4 +15,5 @@ int main()
        
         cmd = strtok(NULL, " "); // 继续分割 str，
     }
+    return 1;
 }
