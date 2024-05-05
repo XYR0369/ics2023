@@ -31,5 +31,5 @@ int main(int argc, char *argv[]) {
   /* Start engine. */
   engine_start();
   
-  return is_exit_status_bad();
+  return is_exit_status_bad();    // 正常 return 0，异常 return 1
 }
