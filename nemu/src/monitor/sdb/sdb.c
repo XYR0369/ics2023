@@ -51,7 +51,7 @@ static int cmd_c(char *args) {
 
 static int cmd_q(char *args) {
   //修改 nemu_state 以正常退出；正常 nemu_state.state 的修改只在 cpu_exec 中进行
-  nemu_state.state = NEMU_QUIT;
+  //nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
