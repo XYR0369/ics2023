@@ -61,7 +61,7 @@ static int cmd_si(char* args){
   if(args == NULL)  cpu_exec(1);
   else
     cpu_exec(atoi(args));
-  return -1;
+  return 0;
 }
 
 static struct {
