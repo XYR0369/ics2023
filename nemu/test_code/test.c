@@ -1,13 +1,18 @@
 
+#include <readline/history.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 
 int main()
 {
-    char *line_read = NULL;
-    line_read = readline("(nemu) ");
-    char *cmd = strtok(line_read, " ");
+    char str[] = "This is a test string.";
+    char *cmd = strtok(str, " "); 
+    while (cmd != NULL) {
+        printf("%s\n", cmd);    
 
-    printf("%s\n",cmd);
-    return 0;
+       
+        cmd = strtok(NULL, " "); // 继续分割 str，
+    }
 }

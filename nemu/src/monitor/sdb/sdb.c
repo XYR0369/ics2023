@@ -44,7 +44,7 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  cpu_exec(-1);
+  cpu_exec(-1);   // 由于接受的 n 是 unsigned，相当于传入了一个最大的数；n 代表 cpu 循环的次数，理应最大（让程序尽量向后执行直到指令决定何时退出）
   return 0;
 }
 
@@ -57,17 +57,25 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char* args){
+  if(args == NULL)  cpu_exec(1);
+  else
+    cpu_exec(atoi(args));
+  return -1;
+}
+
 static struct {
   const char *name;
   const char *description;
-  int (*handler) (char *);
+  int (*handler) (char *);    // 函数指针，调用 handler 相当于执行不同的函数
 } cmd_table [] = {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  { "si", "Execute n instructions", cmd_si},
+  
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -109,13 +117,13 @@ void sdb_mainloop() {
     char *str_end = str + strlen(str);
 
     /* extract the first token as the command */
-    char *cmd = strtok(str, " ");
+    char *cmd = strtok(str, " ");   // 字符串第一个位置是 cmd，接一个空格，之后是可能的参数
     if (cmd == NULL) { continue; }
 
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
-    char *args = cmd + strlen(cmd) + 1;
+    char *args = cmd + strlen(cmd) + 1;   // 跳过 cmd 和 空格，定位到指令可能的第一个参数地址
     if (args >= str_end) {
       args = NULL;
     }
