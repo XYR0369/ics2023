@@ -74,7 +74,7 @@ static int cmd_info(char* args){
   if(strcmp("r", arg) == 0){    // 由于要比较的对象是 string literal（字符串常量），不能直接用 == 比较，而是要用 strcmp 函数
     isa_reg_display();  // TBD, 如何根据 reg 名称寻找其值？
   }
-  else if (strcmp("b", arg)){
+  else if (strcmp("b", arg) == 0){
     ;
   }
   else{
@@ -99,7 +99,7 @@ static int cmd_x(char* args){
   //vaddr_t addr = expr(arg, NULL);
   vaddr_t addr = strtol(arg, NULL, 16);   // 16 进制转换，简单验证正确性
   for(int i = 0; i < n; i++){
-    printf("0x%x: 0x%x\n", addr, vaddr_read(addr, 4));
+    printf("0x%x: 0x%8x\n", addr, vaddr_read(addr, 4));    
     addr += 4;
   }
   return 0;
