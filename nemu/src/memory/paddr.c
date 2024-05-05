@@ -61,8 +61,9 @@ void init_mem() {
 
 
 // 根据地址判断是否在物理内存中，如果超过物理内存范围则报错或者访问 mmio 设备
+// 比 pmem_read 又多了一些判断和操作，应该作为 pmem_read 的外部函数调用
 word_t paddr_read(paddr_t addr, int len) {
-  if (likely(in_pmem(addr))) return pmem_read(addr, len);
+  if (likely(in_pmem(addr))) return pmem_read(addr, len); 
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
   return 0;

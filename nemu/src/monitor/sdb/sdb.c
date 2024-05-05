@@ -17,6 +17,8 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/vaddr.h>
+#include "common.h"
 #include "sdb.h"
 #include "utils.h"
 
@@ -58,10 +60,80 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char* args){
-  if(args == NULL)  cpu_exec(1);
+    /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL)  cpu_exec(1);
   else
-    cpu_exec(atoi(args));
-  return -1;
+    cpu_exec(atoi(arg));
+  return 0;
+}
+
+static int cmd_info(char* args){
+      /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(strcmp("r", arg) == 0){    // 由于要比较的对象是 string literal（字符串常量），不能直接用 == 比较，而是要用 strcmp 函数
+    isa_reg_display();  // TBD, 如何根据 reg 名称寻找其值？
+  }
+  else if (strcmp("b", arg)){
+    ;
+  }
+  else{
+    printf("Unknown args '%s'\n", args);
+  }
+  return 0;
+}
+
+static int cmd_x(char* args){
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No first argument given\n");
+    return 0;
+  }
+  int n = atoi(arg);
+  arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No second argument given\n");
+    return 0;
+  }
+  //vaddr_t addr = expr(arg, NULL);
+  vaddr_t addr = strtol(arg, NULL, 16);   // 16 进制转换，简单验证正确性
+  for(int i = 0; i < n; i++){
+    printf("0x%x: 0x%x\n", addr, vaddr_read(addr, 4));
+    addr += 4;
+  }
+  return 0;
+}
+
+static int cmd_p(char* args){
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No argument given\n");
+    return 0;
+  }
+  printf("0x%x\n", expr(arg, NULL));
+  return 0;
+}
+
+static int cmd_w(char* args){
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No argument given\n");
+    return 0;
+  }
+  return 0;
+}
+
+static int cmd_d(char* args){
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    printf("No argument given\n");
+    return 0;
+  }
+  return 0;
 }
 
 static struct {
@@ -75,7 +147,12 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Execute n instructions", cmd_si},
-  
+  { "info", "Print information of register(info r) or breakpoints(info b)", cmd_info},
+  { "x", "x N EXPR - using the result of EXPR as the start of memory address and print consecutive N 4-byte values in hexadecimal", cmd_x},
+  { "p", "p EXPR - print the value of EXPR", cmd_p},
+  { "w", "w EXPR - set a watchpoint if the value of EXPR changes", cmd_w},
+  { "d", "d N - delete the Nth watchpoint", cmd_d},
+
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -136,7 +213,7 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) { return; }   // 这里是 return，说明返回 -1 时，直接跳出程序，进行程序执行状态的判断
         break;
       }
     }
