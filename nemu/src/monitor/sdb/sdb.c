@@ -85,6 +85,11 @@ static int cmd_info(char* args){
 
 static int cmd_x(char* args){
   /* extract the first argument */
+
+// 关于 strtok 的用法
+// strtok 会改变传入的字符串，将字符串中的分隔符替换为 '\0'(每次调用仅修改遇到的第一个分隔字符)，因此传入的字符串必须是可修改的，如数组，而不能是字符串常量；其返回值为指向传入字符串的每个子串的指针，由于有 '\0'，的分隔，直接打印指针可以输出实际的子串
+
+
   char *arg = strtok(NULL, " ");
   if(arg == NULL){
     printf("No first argument given\n");
@@ -96,6 +101,8 @@ static int cmd_x(char* args){
     printf("No second argument given\n");
     return 0;
   }
+  int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
+  arg[length] = ' ';
   vaddr_t addr = expr(arg, NULL);
   // vaddr_t addr = strtol(arg, NULL, 16);   // 16 进制转换，简单验证正确性
   for(int i = 0; i < n; i++){
