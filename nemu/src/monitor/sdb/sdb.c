@@ -106,7 +106,7 @@ static int cmd_x(char* args){
   arg[length] = ' ';
 
   bool* success = NULL;
-  *success = true;
+  //*success = true;
   vaddr_t addr = expr(arg, success);
   if(!success){
     Log("Invalid expression");
