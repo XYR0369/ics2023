@@ -80,6 +80,7 @@ static int nr_token __attribute__((used))  = 0;
 
 // testing_code
 // x 10 1 +(2*3/4) - 5
+// x 10 1+(222*334/4123)-5
 
 static bool make_token(char *e) {
   int position = 0;
