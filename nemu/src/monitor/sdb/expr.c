@@ -24,9 +24,10 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-
+  TK_NUM,
 };
 
+// 结构体数组
 static struct rule {
   const char *regex;
   int token_type;
@@ -38,6 +39,12 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
+  {"\\-", '-'},
+  {"\\*", '*'},
+  {"\\/", '/'},
+  {"\\(", '('},
+  {"\\)", ')'},
+  {"[0-9]+", TK_NUM},  // number
   {"==", TK_EQ},        // equal
 };
 
@@ -54,7 +61,7 @@ void init_regex() {
   int ret;
 
   for (i = 0; i < NR_REGEX; i ++) {
-    ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+    ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);    // 这是 POSIX 正则表达式库中的函数，将提供的规则编译成进行 pattern 匹配的内部信息
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
@@ -95,9 +102,32 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NUM: 
+          {
+            if(substr_len > 31) {
+              Log("The input number is too long!");
+              return false;
+            }
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
+          }
+          case TK_NOTYPE: break;
+          default: 
+          {
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            break;
+          }
         }
 
+        ++nr_token;
+        if(nr_token > 32) {
+          Log("The token number of the input expression is too large!");
+          return false;
+        }
         break;
       }
     }

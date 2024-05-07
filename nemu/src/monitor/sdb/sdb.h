@@ -17,7 +17,7 @@
 #define __SDB_H__
 
 #include <common.h>
-
+typedef word_t vaddr_t;
 word_t expr(char *e, bool *success);
 
 #endif
