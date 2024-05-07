@@ -105,9 +105,8 @@ static int cmd_x(char* args){
   int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
   arg[length] = ' ';
 
-  bool* success = NULL;
-  //*success = true;
-  vaddr_t addr = expr(arg, success);
+  bool success = true;
+  vaddr_t addr = expr(arg, &success);
   if(!success){
     Log("Invalid expression");
     return 0;
