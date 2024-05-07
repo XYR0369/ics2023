@@ -200,7 +200,7 @@ uint32_t eval(int p, int q){
         }
       }
     }
-    if(!cnt) Log("Invalid expression!");
+    if(cnt) Log("Invalid expression!");
     // calculate the value of each side and combine them
     uint32_t val1 = eval(p, op - 1);
     uint32_t val2 = eval(op + 1, q);
