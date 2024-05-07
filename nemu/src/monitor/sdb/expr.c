@@ -19,6 +19,12 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <stdbool.h>
+
+// for C environment
+// #define true	1
+// #define false	0
+// #define bool	_Bool
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
@@ -116,6 +122,7 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
+            ++nr_token;
             break;
           }
           case TK_NOTYPE: break;
@@ -124,11 +131,12 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
+            ++nr_token;
             break;
           }
         }
 
-        ++nr_token;
+        
         if(nr_token > 32) {
           Log("The token number of the input expression is too large!");
           return false;
