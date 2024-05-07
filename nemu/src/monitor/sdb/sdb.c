@@ -113,10 +113,10 @@ static int cmd_x(char* args){
   }
   printf("%d\n",addr);
   // vaddr_t addr = strtol(arg, NULL, 16);   // 16 进制转换，简单验证正确性
-  for(int i = 0; i < n; i++){
-    printf("0x%x: 0x%08x\n", addr, vaddr_read(addr, 4));    
-    addr += 4;
-  }
+  // for(int i = 0; i < n; i++){
+  //   printf("0x%x: 0x%08x\n", addr, vaddr_read(addr, 4));    
+  //   addr += 4;
+  // }
   return 0;
 }
 
