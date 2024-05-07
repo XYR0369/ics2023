@@ -154,6 +154,64 @@ static bool make_token(char *e) {
   return true;
 }
 
+uint32_t eval(int p, int q){
+// split the expression into two parts, and evaluate them recursively
+// p for the start position of the expression, q for the end position of the expression
+
+  if(p > q){
+    /* Bad expression */
+    return 0;
+  }
+  else if(p == q){
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+    return atoi(tokens[p].str);
+  }
+  else if(tokens[p].type == '(' && tokens[q].type == ')'){
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case,
+     * the expression can't be reduced to the value of the enclosed expression.
+     */
+    return eval(p + 1, q - 1);
+  }
+  else{
+    // find the dominant operator
+    int op = p;
+    int cnt = 0;
+    bool plus_minus_appear = false;
+    for(int i = p; i <= q; ++i){
+      if(tokens[i].type == '(') ++cnt;    // 主运算符不可能在 （） 里面, 因此要保证左右括号相消
+      else if(tokens[i].type == ')') --cnt;
+      else if(cnt == 0){
+        if(tokens[i].type == '+' || tokens[i].type == '-'){   // 在有 + 或 - 的时候，主运算符一定是最后一个+ 或 -，当然前提是不能再括号内部
+          op = i;
+          plus_minus_appear = true;
+          continue;
+        }
+        else if(tokens[i].type == TK_NUM){    // 不会是数字，因此跳过
+          continue;
+        }
+        else if((tokens[i].type == '*' || tokens[i].type == '/') && !plus_minus_appear){    // 没有 + 或 - 的时候，主运算符是最后一个 * 或 /
+          op = i;
+          continue;
+        }
+      }
+    }
+    if(!cnt) Log("Invalid expression!");
+    // calculate the value of each side and combine them
+    uint32_t val1 = eval(p, op - 1);
+    uint32_t val2 = eval(op + 1, q);
+    switch(tokens[op].type){
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      default: assert(0);
+    }
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -166,7 +224,7 @@ word_t expr(char *e, bool *success) {
     Log("tokens[%d].type = %d, tokens[%d].str = %s", i, tokens[i].type, i, tokens[i].str);
   }
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  
 
-  return 0;
+  return eval(0, nr_token-1);
 }
