@@ -101,8 +101,10 @@ static int cmd_x(char* args){
     printf("No second argument given\n");
     return 0;
   }
+  
   int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
   arg[length] = ' ';
+
   vaddr_t addr = expr(arg, NULL);
   // vaddr_t addr = strtol(arg, NULL, 16);   // 16 进制转换，简单验证正确性
   for(int i = 0; i < n; i++){
