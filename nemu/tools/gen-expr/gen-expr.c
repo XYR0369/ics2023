@@ -78,6 +78,8 @@ int main(int argc, char *argv[]) {
   }
   int i;
 
+
+  gen_rand_expr();
   for(i = 0;i<strlen(buf);++i)
   {
     printf("%s",buf);
