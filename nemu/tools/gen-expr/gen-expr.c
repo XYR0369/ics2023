@@ -31,8 +31,42 @@ static char *code_format =
 "  return 0; "
 "}";
 
+static int position = 0;
+
+static uint32_t choose(uint32_t n) {
+  return rand() % n;    // 对 n 取余
+}
+
+static void gen_num() {
+  int len = choose(10) + 1;   // 生成一个长度为 1~10 的数字
+  for (; position < len; ++position) {
+    buf[position] = choose(10) + '0';    // 每一位是 0-10
+  }
+  buf[position] = '\0';
+  ++position;
+}
+
+static void gen_rand_op() {
+  switch (choose(4)) {
+    case 0: buf[position] = '+'; buf[position+1] = '\0'; break;
+    case 1: buf[position] = '-'; buf[position+1] = '\0'; break;
+    case 2: buf[position] = '*'; buf[position+1] = '\0'; break;
+    case 3: buf[position] = '/'; buf[position+1] = '\0'; break;
+  }
+  ++position;
+}
+
+static void gen(char c) {
+  buf[position] = c;
+  ++position;
+}
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+    switch (choose(3)) {
+    case 0: gen_num(); break;
+    case 1: gen('('); gen_rand_expr(); gen(')'); break;
+    default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
+  }
 }
 
 int main(int argc, char *argv[]) {
@@ -43,27 +77,36 @@ int main(int argc, char *argv[]) {
     sscanf(argv[1], "%d", &loop);
   }
   int i;
-  for (i = 0; i < loop; i ++) {
-    gen_rand_expr();
 
-    sprintf(code_buf, code_format, buf);
-
-    FILE *fp = fopen("/tmp/.code.c", "w");
-    assert(fp != NULL);
-    fputs(code_buf, fp);
-    fclose(fp);
-
-    int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
-    if (ret != 0) continue;
-
-    fp = popen("/tmp/.expr", "r");
-    assert(fp != NULL);
-
-    int result;
-    ret = fscanf(fp, "%d", &result);
-    pclose(fp);
-
-    printf("%u %s\n", result, buf);
+  for(i = 0;i<strlen(buf);++i)
+  {
+    printf("%s",buf);
   }
+
+  // for (i = 0; i < loop; i ++) {
+  //   gen_rand_expr();
+
+  //   sprintf(code_buf, code_format, buf);    // 将 buf 中的表达式和上文中的主函数粘合起来
+
+  //   FILE *fp = fopen("/tmp/.code.c", "w");
+  //   assert(fp != NULL);
+  //   fputs(code_buf, fp);
+  //   fclose(fp);
+
+  //   int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
+  //   if (ret != 0) continue;
+
+  //   fp = popen("/tmp/.expr", "r");        // popen 打开一个进程，将可执行文件的输出重定向到管道中，以“r”模式打开，返回一个文件指针
+  //   assert(fp != NULL);
+
+  //   int result;
+  //   ret = fscanf(fp, "%d", &result);      // 从文件指针中读取一个整数，也就是 result
+  //   pclose(fp);
+
+  //   printf("%u %s\n", result, buf);
+  // }
+
+  
+
   return 0;
 }

@@ -161,6 +161,7 @@ uint32_t eval(int p, int q){
 
   if(p > q){
     /* Bad expression */
+    Log("Invalid expression!");   // 严格上说是非法的，为了程序运行可以 return 0
     return 0;
   }
   else if(p == q){
@@ -221,9 +222,10 @@ word_t expr(char *e, bool *success) {
   }
 
   // print the content of tokens
-  for(int i = 0; i < 32; ++i) {
-    Log("tokens[%d].type = %d, tokens[%d].str = %s", i, tokens[i].type, i, tokens[i].str);
-  }
+  // for(int i = 0; i < 32; ++i) {
+  //   Log("tokens[%d].type = %d, tokens[%d].str = %s", i, tokens[i].type, i, tokens[i].str);
+  // }
+  
   /* TODO: Insert codes to evaluate the expression. */
   
 
