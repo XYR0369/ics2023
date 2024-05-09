@@ -161,7 +161,7 @@ bool check_parentheses(size_t p, size_t q);
 uint32_t eval(int p, int q){
 // split the expression into two parts, and evaluate them recursively
 // p for the start position of the expression, q for the end position of the expression
-  bool check_par = check_parentheses(p, q+1);
+  bool check_par = check_parentheses(p, q);
   if(p > q){
     /* Bad expression */
     Log("Invalid expression!");   // 严格上说是非法的，为了程序运行可以 return 0
@@ -267,7 +267,7 @@ word_t expr(char *e, bool *success) {
 bool check_parentheses(size_t p, size_t q)
 {
     int count = 0;
-    for (size_t i = p; i < q; ++i) {
+    for (size_t i = p; i <= q; ++i) {
         if (tokens[i].type == '(') {
             ++count;
         } else
