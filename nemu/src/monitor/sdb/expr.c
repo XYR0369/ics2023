@@ -155,6 +155,18 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p, int q){
+// 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
+
+  int cnt = 0;
+  for(int i = p; i <= q; ++i){
+    if(tokens[i].type == '(') ++cnt;
+    else if(tokens[i].type == ')') --cnt;
+    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' ) return true;
+  }
+  return false;
+}
+
 uint32_t eval(int p, int q){
 // split the expression into two parts, and evaluate them recursively
 // p for the start position of the expression, q for the end position of the expression
@@ -171,7 +183,7 @@ uint32_t eval(int p, int q){
      */
     return atoi(tokens[p].str);
   }
-  else if(tokens[p].type == '(' && tokens[q].type == ')'){
+  else if(check_parentheses(p, q)){
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case,
      * the expression can't be reduced to the value of the enclosed expression.
