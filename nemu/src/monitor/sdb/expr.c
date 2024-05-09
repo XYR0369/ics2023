@@ -169,7 +169,8 @@ bool check_parentheses(int p, int q)
   // if(i == q)  return true; else return false;
   // return false;
  
-  for(int i = p; i <= q; ++i)
+  int i = p;
+  for(; i <= q; ++i)
   {
     if(tokens[i].type == '(') {++cnt;}
     else if(tokens[i].type == ')') {--cnt;}
