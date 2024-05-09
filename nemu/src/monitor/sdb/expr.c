@@ -237,45 +237,45 @@ word_t expr(char *e, bool *success) {
 
 
 
-// bool check_parentheses(size_t p, size_t q)
-// {
-// // 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
-//   int cnt = 0;
-//   int i = p;
-//   for(; i <= q; ++i)
-//   {
-//     if(tokens[i].type == '(') {++cnt;}
-//     else if(tokens[i].type == ')') {--cnt;}
-//     if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}   // 第一轮不符合仍然继续循环
-//   }
-//   if(i == q)  return true; else return false;
-//   return false;
+bool check_parentheses(size_t p, size_t q)
+{
+// 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
+  int cnt = 0;
+  int i = p;
+  for(; i <= q; ++i)
+  {
+    if(tokens[i].type == '(') {++cnt;}
+    else if(tokens[i].type == ')') {--cnt;}
+    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}   // 第一轮不符合仍然继续循环
+  }
+  if(i == q)  return true; else return false;
+  return false;
  
-// // 虽然看似一致，但是下面的 run 不了
-//   // int i = p;
-//   // for(; i <= q; ++i)
-//   // {
-//   //   if(tokens[i].type == '(') {++cnt;}
-//   //   else if(tokens[i].type == ')') {--cnt;}
-//   //   if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;   // 第一轮不符合就会 return false
-//   // }
-//   // return false;
-// }
+// 虽然看似一致，但是下面的 run 不了
+  // int i = p;
+  // for(; i <= q; ++i)
+  // {
+  //   if(tokens[i].type == '(') {++cnt;}
+  //   else if(tokens[i].type == ')') {--cnt;}
+  //   if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;   // 第一轮不符合就会 return false
+  // }
+  // return false;
+}
 
 // Stack Overflow 大佬修正版
 // 1. 变量规范，数组下标用 size_t
-bool check_parentheses(size_t p, size_t q)
-{
-    int count = 0;
-    for (size_t i = p; i <= q; ++i) {
-        if (tokens[i].type == '(') {
-            ++count;
-        } else
-        if (tokens[i].type == ')') {
-            if (count == 0)
-                return false;
-            --count;
-        }
-    }
-    return count == 0;
-}
+// bool check_parentheses(size_t p, size_t q)
+// {
+//     int count = 0;
+//     for (size_t i = p; i <= q; ++i) {
+//         if (tokens[i].type == '(') {
+//             ++count;
+//         } else
+//         if (tokens[i].type == ')') {
+//             if (count == 0)
+//                 return false;
+//             --count;
+//         }
+//     }
+//     return count == 0;
+// }
