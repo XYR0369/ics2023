@@ -84,11 +84,6 @@ static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 
-// testing_code
-// x 10 1 +(2*3/4) - 5
-// x 10 1+(222*334/4123)-5
-// x 10 1+(3*2)/3+4-1
-
 static bool make_token(char *e) {
   int position = 0;
   int i;
@@ -231,52 +226,50 @@ word_t expr(char *e, bool *success) {
   
   /* TODO: Insert codes to evaluate the expression. */
   
-
   return eval(0, nr_token-1);
 }
 
 
 
-// bool check_parentheses(size_t p, size_t q)
-// {
-// // 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
-//   int cnt = 0;
-//   int i = p;
-//   for(; i <= q; ++i)
-//   {
-//     if(tokens[i].type == '(') {++cnt;}
-//     else if(tokens[i].type == ')') {--cnt;}
-//     if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}   // 第一轮不符合仍然继续循环
-//   }
-//   if(i == q)  return true; else return false;
-//   return false;
-// }
-
-// // 注意虽然看似一致，但是下面的 run 不了
-//   // int i = p;
-//   // for(; i <= q; ++i)
-//   // {
-//   //   if(tokens[i].type == '(') {++cnt;}
-//   //   else if(tokens[i].type == ')') {--cnt;}
-//   //   if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;   // 第一轮不符合就会 return false
-//   // }
-//   // return false;
-
-// Stack Overflow 大佬修正版
-// 1. 变量规范，数组下标用 size_t
 bool check_parentheses(size_t p, size_t q)
 {
-    int count = 0;
-    for (size_t i = p; i <= q; ++i) {
-        if (tokens[i].type == '(') {
-            ++count;
-        } else
-        if (tokens[i].type == ')') {
-            --count;
-            if (count == 0)
-                return false;
-            
-        }
-    }
-    return count == 0;
+// 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
+  int cnt = 0;
+  int i = p;
+  for(; i <= q; ++i)
+  {
+    if(tokens[i].type == '(') {++cnt;}
+    else if(tokens[i].type == ')') {--cnt;}
+    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}   // 第一轮不符合仍然继续循环
+  }
+  if(i == q)  return true; else return false;
+  return false;
 }
+
+// 注意虽然看似一致，但是下面的 run 不了
+  // int i = p;
+  // for(; i <= q; ++i)
+  // {
+  //   if(tokens[i].type == '(') {++cnt;}
+  //   else if(tokens[i].type == ')') {--cnt;}
+  //   if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;   // 第一轮不符合就会 return false
+  // }
+  // return false;
+
+// Stack Overflow 大佬修正版（待改错）
+// 1. 变量规范，数组下标用 size_t;  2. q 一般定义为数组末尾的下一个元素，这样循环使用 < ，同时也方便直接传入数组的大小；当然对于我们的框架代码不需要这么做
+// bool check_parentheses(size_t p, size_t q)
+// {
+//     int count = 0;
+//     for (size_t i = p; i <= q; ++i) {
+//         if (tokens[i].type == '(') {
+//             ++count;
+//         } else
+//         if (tokens[i].type == ')') {
+//             if (count == 0)
+//                 return false;
+//             --count;
+//         }
+//     }
+//     return count == 0;
+// }
