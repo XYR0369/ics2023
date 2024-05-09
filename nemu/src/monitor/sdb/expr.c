@@ -164,17 +164,19 @@ bool check_parentheses(int p, int q)
   {
     if(tokens[i].type == '(') {++cnt;}
     else if(tokens[i].type == ')') {--cnt;}
-    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}
+    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}   // 第一轮不符合仍然继续循环
   }
   if(i == q)  return true; else return false;
   return false;
  
+// 虽然看似一致，但是下面的 run 不了
   // int i = p;
   // for(; i <= q; ++i)
   // {
   //   if(tokens[i].type == '(') {++cnt;}
   //   else if(tokens[i].type == ')') {--cnt;}
-  //   {if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;}
+  //   if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;   // 第一轮不符合就会 return false
+
   // }
   // return false;
 }
