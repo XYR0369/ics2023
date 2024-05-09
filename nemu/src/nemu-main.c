@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
+#include "/home/xyr/ics2023/nemu/src/monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -32,7 +33,7 @@ int main(int argc, char *argv[]) {
   testing_expr();
 
   /* Start engine. */
-  //engine_start();
+  engine_start();
   
   return is_exit_status_bad();    // 正常 return 0，异常 return 1
 }
