@@ -75,5 +75,5 @@ void testing_expr()
     }
 
     fclose(file); // 关闭文件
-    return EXIT_SUCCESS;
+   
 }
