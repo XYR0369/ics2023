@@ -47,7 +47,7 @@ void testing_expr()
 {
   # define MAX_LINE_LENGTH 1024
 
-  FILE *file = fopen("selected-input", "r"); // 打开文件
+  FILE *file = fopen("/home/xyr/ics2023/nemu/tools/gen-expr/selected-input", "r"); // 打开文件
     
 
     char line[MAX_LINE_LENGTH] = {};
