@@ -159,13 +159,14 @@ bool check_parentheses(int p, int q)
 {
 // 不应仅仅判断 p 是 '(' , 而 q 是 ')', 否则在 （1+2）* (3+4)  会返回正确，实际并非正确
   int cnt = 0;
-  for(int i = p; i <= q; ++i)
+  int i = p;
+  for(; i <= q; ++i)
   {
     if(tokens[i].type == '(') {++cnt;}
     else if(tokens[i].type == ')') {--cnt;}
-    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) {return true;}
-    else {return false;}
+    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')') {break;}
   }
+  if(i == q)  return true; else return false;
   return false;
 }
 
