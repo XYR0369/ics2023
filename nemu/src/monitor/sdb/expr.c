@@ -272,9 +272,10 @@ bool check_parentheses(size_t p, size_t q)
             ++count;
         } else
         if (tokens[i].type == ')') {
+            --count;
             if (count == 0)
                 return false;
-            --count;
+            
         }
     }
     return count == 0;
