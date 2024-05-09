@@ -267,7 +267,7 @@ word_t expr(char *e, bool *success) {
 bool check_parentheses(size_t p, size_t q)
 {
     int count = 0;
-    for (size_t i = p; i < q; ++i) {
+    for (size_t i = p; i <= q; ++i) {
         if (tokens[i].type == '(') {
             ++count;
         } else
