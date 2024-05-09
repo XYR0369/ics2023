@@ -66,6 +66,7 @@ static int cmd_si(char* args){
   else
     cpu_exec(atoi(arg));
   return 0;
+  
 }
 
 static int cmd_info(char* args){
