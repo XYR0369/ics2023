@@ -30,7 +30,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_NUM,
+  TK_NUM, TK_NEQ, TK_AND, TK_DEREF
 };
 
 // 结构体数组
@@ -52,6 +52,9 @@ static struct rule {
   {"\\)", ')'},
   {"[0-9]+", TK_NUM},  // number
   {"==", TK_EQ},        // equal
+  {"!=", TK_NEQ},       
+  {"&&", TK_AND},
+  {"*",TK_DEREF}
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -99,8 +102,8 @@ static bool make_token(char *e) {
         int substr_len = pmatch.rm_eo;
 
     // 字符匹配调试信息
-        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+            i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
