@@ -48,10 +48,7 @@ void testing_expr()
   # define MAX_LINE_LENGTH 1024
 
   FILE *file = fopen("selected-input", "r"); // 打开文件
-    if (!file) {
-        perror("Error opening file");
-        return EXIT_FAILURE;
-    }
+    
 
     char line[MAX_LINE_LENGTH] = {};
     // char strA[MAX_LINE_LENGTH], strB[MAX_LINE_LENGTH];
