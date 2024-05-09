@@ -174,7 +174,7 @@ bool check_parentheses(int p, int q)
   {
     if(tokens[i].type == '(') {++cnt;}
     else if(tokens[i].type == ')') {--cnt;}
-    if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;
+    {if(cnt == 0 && tokens[p].type == '(' && tokens[q].type == ')' && i == q) return true; else return false;}
   }
   return false;
 }
