@@ -28,6 +28,6 @@ int main()
 
     // printf("The hexadecimal representation is: 0x%lx\n", num);
 
-    unsigned result = 282-806092443( (24287/3124717723));     
+    unsigned result = 282-806092443+( (24287/3124717723));     
     printf("%u", result);   
 }
