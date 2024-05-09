@@ -173,7 +173,7 @@ bool check_parentheses(int p, int q){
 uint32_t eval(int p, int q){
 // split the expression into two parts, and evaluate them recursively
 // p for the start position of the expression, q for the end position of the expression
-
+  bool check_par = check_parentheses(p, q);
   if(p > q){
     /* Bad expression */
     Log("Invalid expression!");   // 严格上说是非法的，为了程序运行可以 return 0
@@ -186,7 +186,7 @@ uint32_t eval(int p, int q){
      */
     return atoi(tokens[p].str);
   }
-  else if(check_parentheses(p, q)){
+  else if(check_par){
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case,
      * the expression can't be reduced to the value of the enclosed expression.
