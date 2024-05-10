@@ -56,5 +56,8 @@ int main()
     printf("Quotient of hex %X divided by decimal %d is %d\n", hex, decimal, quotient);
 
     // 注意：在C语言中，除法运算如果两个操作数都是整数，则结果也是整数，会进行截断。
+
+    int a = strtol("0x123", NULL, 16);
+    printf("%x\n", a+1);
     return 0;
 }

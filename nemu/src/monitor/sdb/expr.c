@@ -179,7 +179,7 @@ uint32_t eval(int p, int q){
       if (!success) {Log("Invalid register name!"); return 0;}
       else return reg_val; 
     }
-    else return atoi(tokens[p].str);
+    else return strtol(tokens[p].str, NULL, 16);
   }
   else if(q == p + 1 && tokens[p].type == TK_DEREF){
     
