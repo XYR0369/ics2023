@@ -36,28 +36,31 @@ int main()
 
 
     // 定义十进制和十六进制的变量
-    int decimal = 10;
-    int hex = 0x1a;
+    // int decimal = 10;
+    // int hex = 0x1a;
 
-    // 进行加法运算
-    int sum = decimal + hex;
-    printf("Sum of decimal %d and hex %X is %d\n", decimal, hex, sum);
+    // // 进行加法运算
+    // int sum = decimal + hex;
+    // printf("Sum of decimal %d and hex %X is %d\n", decimal, hex, sum);
 
-    // 进行减法运算
-    int difference = decimal - hex;
-    printf("Difference of decimal %d and hex %X is %d\n", decimal, hex, difference);
+    // // 进行减法运算
+    // int difference = decimal - hex;
+    // printf("Difference of decimal %d and hex %X is %d\n", decimal, hex, difference);
 
-    // 进行乘法运算
-    int product = decimal * hex;
-    printf("Product of decimal %d and hex %X is %d\n", decimal, hex, product);
+    // // 进行乘法运算
+    // int product = decimal * hex;
+    // printf("Product of decimal %d and hex %X is %d\n", decimal, hex, product);
 
-    // 进行除法运算
-    int quotient = hex / decimal;
-    printf("Quotient of hex %X divided by decimal %d is %d\n", hex, decimal, quotient);
+    // // 进行除法运算
+    // int quotient = hex / decimal;
+    // printf("Quotient of hex %X divided by decimal %d is %d\n", hex, decimal, quotient);
 
-    // 注意：在C语言中，除法运算如果两个操作数都是整数，则结果也是整数，会进行截断。
+    // // 注意：在C语言中，除法运算如果两个操作数都是整数，则结果也是整数，会进行截断。
 
-    int a = strtol("0x123", NULL, 16);
-    printf("%x\n", a+1);
+    // int a = strtol("0x123", NULL, 16);
+    // printf("%x\n", a+1);
+
+    printf("0x%x\n",0xa+10);
+    
     return 0;
 }
