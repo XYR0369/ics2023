@@ -50,13 +50,13 @@ static struct rule {
   {"\\/", '/'},
   {"\\(", '('},
   {"\\)", ')'},
-  {"==", TK_EQ},        // equal
+  {"==", TK_EQ},       
   {"!=", TK_NEQ},       
   {"&&", TK_AND},
   {"\\*",TK_DEREF},
   {"\\$[a-zA-Z0-9]+",TK_REG},
   {"0x[0-9]+",TK_HEX},
-  {"[0-9]+", TK_DEC},  // number
+  {"[0-9]+", TK_DEC},  // 按照顺序匹配，有限 HEX, 防止 0x123 中的 0 被读成 DEC
 };
 
 #define NR_REGEX ARRLEN(rules)

@@ -96,7 +96,7 @@ static int cmd_x(char* args){
     printf("No first argument given\n");
     return 0;
   }
-  int n = atoi(arg);
+  // int n = atoi(arg);
   arg = strtok(NULL, " ");
   if(arg == NULL){
     printf("No second argument given\n");
@@ -128,7 +128,13 @@ static int cmd_p(char* args){
     printf("No argument given\n");
     return 0;
   }
-  printf("0x%x\n", expr(arg, NULL));
+  bool success = true;
+  uint32_t result = expr(arg, &success);
+  if(!success){
+    Log("Invalid expression");
+    return 0;
+  }
+  printf("0x%x\n", result);
   return 0;
 }
 
