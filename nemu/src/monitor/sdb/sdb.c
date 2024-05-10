@@ -73,7 +73,7 @@ static int cmd_info(char* args){
       /* extract the first argument */
   char *arg = strtok(NULL, " ");
   if(strcmp("r", arg) == 0){    // 由于要比较的对象是 string literal（字符串常量），不能直接用 == 比较，而是要用 strcmp 函数
-    isa_reg_display();  // TBD, 如何根据 reg 名称寻找其值？
+    isa_reg_display();  
   }
   else if (strcmp("b", arg) == 0){
     ;
