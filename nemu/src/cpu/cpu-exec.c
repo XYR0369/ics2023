@@ -42,7 +42,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
   // check_watchpoints
+#ifdef CONFIG_WATCHPOINT  // 可以关闭已提高程序性能
   if(check_watchpoint()) { nemu_state.state = NEMU_STOP; }
+#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

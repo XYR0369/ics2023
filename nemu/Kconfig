@@ -126,7 +126,6 @@ endmenu
 
 menu "Testing and Debugging"
 
-
 config TRACE
   bool "Enable tracer"
   default y
@@ -159,6 +158,10 @@ config DIFFTEST
   help
     Enable differential testing with a reference design.
     Note that this will significantly reduce the performance of NEMU.
+
+config CONFIG_WATCHPOINT
+  bool "Enable watchpoint"
+  default y
 
 choice
   prompt "Reference design"
