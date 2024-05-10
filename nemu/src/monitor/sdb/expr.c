@@ -56,7 +56,7 @@ static struct rule {
   {"!=", TK_NEQ},       
   {"&&", TK_AND},
   {"\\$[a-zA-Z0-9]+",TK_REG},
-  {"0x[0-9]+",TK_HEX},
+  {"0x[0-9a-fA-F]+",TK_HEX},
   {"[0-9]+", TK_DEC},  // 按照顺序匹配，有限 HEX, 防止 0x123 中的 0 被读成 DEC
 };
 
