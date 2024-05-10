@@ -219,6 +219,8 @@ uint32_t eval(int p, int q){
   }
 }
 
+//p 0x123 && $s1 !=
+
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
