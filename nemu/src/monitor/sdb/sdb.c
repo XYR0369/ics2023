@@ -128,6 +128,8 @@ static int cmd_p(char* args){
     printf("No argument given\n");
     return 0;
   }
+  int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
+  arg[length] = ' ';
   bool success = true;
   uint32_t result = expr(arg, &success);
   if(!success){
