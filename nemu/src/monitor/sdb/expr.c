@@ -179,10 +179,11 @@ uint32_t eval(int p, int q){
       if (!success) {Log("Invalid register name!"); return 0;}
       else return reg_val; 
     }
-    else return strtol(tokens[p].str, NULL, 16);
+    else if(tokens[p].type == TK_DEC) return atoi(tokens[p].str);
+    else if(tokens[p].type == TK_HEX) return strtol(tokens[p].str, NULL, 16);
+    else return 0;
   }
   else if(q == p + 1 && tokens[p].type == TK_DEREF){
-    
     vaddr_t addr = atoi(tokens[p + 1].str);
     return vaddr_read(addr, 4);
   }
