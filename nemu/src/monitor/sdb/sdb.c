@@ -150,7 +150,7 @@ static int cmd_w(char* args){
   }
   int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
   arg[length] = ' ';
-  
+  setup_watchpoint(arg);
   return 0;
 }
 
@@ -161,6 +161,9 @@ static int cmd_d(char* args){
     printf("No argument given\n");
     return 0;
   }
+  int length = strlen(arg);   
+  arg[length] = ' ';
+  delete_watchpoint(arg);
   return 0;
 }
 

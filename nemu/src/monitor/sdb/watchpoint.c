@@ -100,6 +100,21 @@ void setup_watchpoint(char* e)
   if(!success) {free_wp(wp); Log("Invalid expression!");}
 }
 
+void delete_watchpoint(char* e)
+{
+  WP *p = head;
+  while(p != NULL)
+  {
+    if(strcmp(p->expr, e) == 0)
+    {
+      free_wp(p);
+      return;
+    }
+    p = p->next;
+  }
+  Log("No such watchpoint!");
+}
+
 bool check_watchpoint()
 {
   WP *p = head;
