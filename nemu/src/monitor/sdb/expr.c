@@ -31,7 +31,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEC, TK_NEQ, TK_AND, TK_DEREF, TK_REG, TK_HEX
+  TK_NEQ, TK_AND, TK_DEREF, TK_REG, TK_HEX, TK_DEC
 };
 
 // 结构体数组
