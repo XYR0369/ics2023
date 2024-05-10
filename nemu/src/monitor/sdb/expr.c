@@ -46,14 +46,13 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"\\-", '-'},
-  {"\\*", '*'},
+  {"\\*", '*'},         // multiply or TK_DEREF
   {"\\/", '/'},
   {"\\(", '('},
   {"\\)", ')'},
   {"==", TK_EQ},       
   {"!=", TK_NEQ},       
   {"&&", TK_AND},
-  {"\\*",TK_DEREF},
   {"\\$[a-zA-Z0-9]+",TK_REG},
   {"0x[0-9]+",TK_HEX},
   {"[0-9]+", TK_DEC},  // 按照顺序匹配，有限 HEX, 防止 0x123 中的 0 被读成 DEC
@@ -115,7 +114,7 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case TK_DEC: 
+          case TK_DEC: case TK_HEX:
           {
             if(substr_len > 31) {
               Log("The input number is too long!");
@@ -151,8 +150,7 @@ static bool make_token(char *e) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
-  }
-
+  } // end while
   return true;
 }
 
@@ -174,6 +172,9 @@ uint32_t eval(int p, int q){
      */
     return atoi(tokens[p].str);
   }
+  else if(q == p + 1 && tokens[p].type == TK_DEREF){
+    return 0;
+  }
   else if(check_par){
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case,
@@ -182,7 +183,7 @@ uint32_t eval(int p, int q){
     return eval(p + 1, q - 1);
   }
   else{
-    // find the dominant operator
+    // find the dominant operator, since we have judged and discarded parentheses, the expr can't be warped by paired parentheses
     int op = p;
     int cnt = 0;
     bool plus_minus_appear = false;
@@ -231,6 +232,13 @@ word_t expr(char *e, bool *success) {
   
   /* TODO: Insert codes to evaluate the expression. */
   
+  // tell between multiply & dereference
+  for (int i = 0; i < nr_token; i ++) {
+  if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type != TK_DEC || tokens[i - 1].type != TK_HEX || tokens[i - 1].type != TK_REG) ) {
+    tokens[i].type = TK_DEREF;
+  }
+}
+
   return eval(0, nr_token-1);
 }
 
