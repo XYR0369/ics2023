@@ -195,20 +195,32 @@ uint32_t eval(int p, int q){
     // find the dominant operator, since we have judged and discarded parentheses, the expr can't be warped by paired parentheses
     int op = p;
     int cnt = 0;
+    bool and_appear = false;
+    bool eq_neq_appear = false;
     bool plus_minus_appear = false;
     for(int i = p; i <= q; ++i){
       if(tokens[i].type == '(') ++cnt;    // 主运算符不可能在 （） 里面, 因此要保证左右括号相消
       else if(tokens[i].type == ')') --cnt;
       else if(cnt == 0){
-        if(tokens[i].type == '+' || tokens[i].type == '-'){   // 在有 + 或 - 的时候，主运算符一定是最后一个+ 或 -，当然前提是不能再括号内部
+        if (tokens[i].type == TK_AND){
+          op = i;
+          and_appear = true;
+          continue;
+        }
+        else if(!and_appear && (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)){
+          op = i;
+          eq_neq_appear = true;
+          continue;
+        }
+        else if(!and_appear && !eq_neq_appear && (tokens[i].type == '+' || tokens[i].type == '-')){   // [只考虑加减乘除括号] 在有 + 或 - 的时候，主运算符一定是最后一个 + 或 -，当然前提是不能再括号内部
           op = i;
           plus_minus_appear = true;
           continue;
         }
-        else if(tokens[i].type == TK_DEC){    // 不会是数字，因此跳过
+        else if(tokens[i].type == TK_DEC || tokens[i].type == TK_HEX || tokens[i].type == TK_DEREF || tokens[i].type == TK_REG){    // 不会是数字/寄存器/解引用等，因此跳过
           continue;
         }
-        else if((tokens[i].type == '*' || tokens[i].type == '/') && !plus_minus_appear){    // 没有 + 或 - 的时候，主运算符是最后一个 * 或 /
+        else if(!and_appear && !eq_neq_appear && !plus_minus_appear && (tokens[i].type == '*' || tokens[i].type == '/') ){    // 没有 + 或 - 的时候，主运算符是最后一个 * 或 /
           op = i;
           continue;
         }
@@ -223,6 +235,9 @@ uint32_t eval(int p, int q){
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': return val1 / val2;
+      case TK_EQ: return val1 == val2;
+      case TK_NEQ: return val1 != val2;
+      case TK_AND: return (!val1) ? val1: val2;   // 考虑短路运算
       default: assert(0);
     }
   }
