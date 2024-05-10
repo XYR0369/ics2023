@@ -245,7 +245,7 @@ uint32_t eval(int p, int q){
   }
 }
 
-//p 0x123 && $s1 !=
+//p 1&&(0x123+($s1+1)*10-0x12C)
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -262,7 +262,7 @@ word_t expr(char *e, bool *success) {
   
   // tell between multiply & dereference
   for (int i = 0; i < nr_token; i ++) {
-  if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-'  || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == ')' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
+  if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-'  || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
     tokens[i].type = TK_DEREF;
   }
 }
