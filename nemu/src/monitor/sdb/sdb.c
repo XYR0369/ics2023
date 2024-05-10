@@ -76,7 +76,7 @@ static int cmd_info(char* args){
     isa_reg_display();  
   }
   else if (strcmp("b", arg) == 0){
-    ;
+    disp_watchpoint();
   }
   else{
     printf("Unknown args '%s'\n", args);

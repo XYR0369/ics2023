@@ -136,3 +136,14 @@ bool check_watchpoint()
   return false;
 }
 
+void disp_watchpoint()
+{
+  WP *p = head;
+  if(p == NULL) {Log("No watchpoints!");}
+  while(p != NULL)
+  {
+    Log("Watchpoint %d: %s\n", p->NO, p->expr);
+    p = p->next;
+  }
+}
+
