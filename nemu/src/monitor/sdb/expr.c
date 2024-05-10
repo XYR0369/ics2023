@@ -20,6 +20,7 @@
  */
 #include <regex.h>
 #include <stdbool.h>
+#include <memory/vaddr.h>
 
 // for C environment
 // #define true	1
@@ -173,7 +174,15 @@ uint32_t eval(int p, int q){
     return atoi(tokens[p].str);
   }
   else if(q == p + 1 && tokens[p].type == TK_DEREF){
-    return 0;
+    
+    vaddr_t addr = atoi(tokens[p + 1].str);
+    return vaddr_read(addr, 4);
+  }
+  else if (tokens[p].type == TK_REG){
+    bool success = true;
+    uint32_t reg_val = isa_reg_str2val(tokens[p].str+1, &success);
+    if (!success) {Log("Invalid register name!"); return 0;}
+    else return reg_val; 
   }
   else if(check_par){
     /* The expression is surrounded by a matched pair of parentheses.
@@ -260,6 +269,7 @@ bool check_parentheses(size_t p, size_t q)
   if(i == q)  return true; else return false;
   return false;
 }
+// Stack Overflow 大佬给的其他建议：1. 变量规范，数组下标用 size_t;  2. q 一般定义为数组末尾的下一个元素，这样循环使用 < ，同时也方便直接传入数组的大小；当然对于我们的框架代码不需要这么做
 
 // 注意虽然看似一致，但是下面的 run 不了
   // int i = p;
@@ -271,20 +281,3 @@ bool check_parentheses(size_t p, size_t q)
   // }
   // return false;
 
-// Stack Overflow 大佬修正版（待改错）
-// 1. 变量规范，数组下标用 size_t;  2. q 一般定义为数组末尾的下一个元素，这样循环使用 < ，同时也方便直接传入数组的大小；当然对于我们的框架代码不需要这么做
-// bool check_parentheses(size_t p, size_t q)
-// {
-//     int count = 0;
-//     for (size_t i = p; i <= q; ++i) {
-//         if (tokens[i].type == '(') {
-//             ++count;
-//         } else
-//         if (tokens[i].type == ')') {
-//             if (count == 0)
-//                 return false;
-//             --count;
-//         }
-//     }
-//     return count == 0;
-// }
