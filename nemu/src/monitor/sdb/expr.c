@@ -171,18 +171,19 @@ uint32_t eval(int p, int q){
      * For now this token should be a number.
      * Return the value of the number.
      */
-    return atoi(tokens[p].str);
+    if(tokens[p].type == TK_REG)
+    {
+      bool success = true;
+      uint32_t reg_val = isa_reg_str2val(tokens[p].str+1, &success);
+      if (!success) {Log("Invalid register name!"); return 0;}
+      else return reg_val; 
+    }
+    else return atoi(tokens[p].str);
   }
   else if(q == p + 1 && tokens[p].type == TK_DEREF){
     
     vaddr_t addr = atoi(tokens[p + 1].str);
     return vaddr_read(addr, 4);
-  }
-  else if (tokens[p].type == TK_REG){
-    bool success = true;
-    uint32_t reg_val = isa_reg_str2val(tokens[p].str+1, &success);
-    if (!success) {Log("Invalid register name!"); return 0;}
-    else return reg_val; 
   }
   else if(check_par){
     /* The expression is surrounded by a matched pair of parentheses.
