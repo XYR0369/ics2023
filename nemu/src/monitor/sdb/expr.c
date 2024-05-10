@@ -30,7 +30,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_NUM, TK_NEQ, TK_AND, TK_DEREF
+  TK_DEC, TK_NEQ, TK_AND, TK_DEREF, TK_REG, TK_HEX
 };
 
 // 结构体数组
@@ -50,11 +50,13 @@ static struct rule {
   {"\\/", '/'},
   {"\\(", '('},
   {"\\)", ')'},
-  {"[0-9]+", TK_NUM},  // number
+  {"[0-9]+", TK_DEC},  // number
   {"==", TK_EQ},        // equal
   {"!=", TK_NEQ},       
   {"&&", TK_AND},
-  {"\\*",TK_DEREF}
+  {"\\*",TK_DEREF},
+  {"&[a-zA-Z0-9]+",TK_REG},
+  {"^0x[0-9]+",TK_HEX}
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -113,7 +115,7 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case TK_NUM: 
+          case TK_DEC: 
           {
             if(substr_len > 31) {
               Log("The input number is too long!");
@@ -193,7 +195,7 @@ uint32_t eval(int p, int q){
           plus_minus_appear = true;
           continue;
         }
-        else if(tokens[i].type == TK_NUM){    // 不会是数字，因此跳过
+        else if(tokens[i].type == TK_DEC){    // 不会是数字，因此跳过
           continue;
         }
         else if((tokens[i].type == '*' || tokens[i].type == '/') && !plus_minus_appear){    // 没有 + 或 - 的时候，主运算符是最后一个 * 或 /
