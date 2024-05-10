@@ -183,12 +183,8 @@ uint32_t eval(int p, int q){
     else if(tokens[p].type == TK_HEX) return strtol(tokens[p].str, NULL, 16);
     else return 0;
   }
-  // else if(q == p + 1 && tokens[p].type == TK_DEREF){
-  //   vaddr_t addr = strtol(tokens[q].str, NULL, 16);
-  //   return vaddr_read(addr, 4);
-  // }
-    else if(tokens[p].type == TK_DEREF){
-    vaddr_t addr = eval(p+1, q);
+    else if(tokens[p].type == TK_DEREF){    
+    vaddr_t addr = eval(p+1, q);  // 不能仅仅是 p+1 的值，因为解引用后面可能是一个表达式
     return vaddr_read(addr, 4);
   }
   else if(check_par){

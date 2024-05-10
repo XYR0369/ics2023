@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
-#include "/home/xyr/ics2023/nemu/src/monitor/sdb/sdb.h"
+#include "./monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 void testing_expr()
 {
   # define MAX_LINE_LENGTH 1024
-  FILE *file = fopen("/home/xyr/ics2023/nemu/tools/gen-expr/selected-input", "r"); // 打开文件
+  FILE *file = fopen("../tools/gen-expr/selected-input", "r"); // 打开文件
   char line[MAX_LINE_LENGTH] = {};
   while (fgets(line, sizeof(line), file)) { // 读取每一行
     char* result = strtok(line, " "); // 以空格为分隔符，分割字符串
