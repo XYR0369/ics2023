@@ -148,6 +148,9 @@ static int cmd_w(char* args){
     printf("No argument given\n");
     return 0;
   }
+  int length = strlen(arg);   // 将 strtok 更改的字符串改回空格 
+  arg[length] = ' ';
+  
   return 0;
 }
 
