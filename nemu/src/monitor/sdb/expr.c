@@ -237,7 +237,7 @@ uint32_t eval(int p, int q){
       case '/': return val1 / val2;
       case TK_EQ: return val1 == val2;
       case TK_NEQ: return val1 != val2;
-      case TK_AND: return (!val1) ? val1: val2;   // 考虑短路运算
+      case TK_AND: return (!val1) ? 0: (!(val2 == 0));   // 考虑短路运算
       default: assert(0);
     }
   }
