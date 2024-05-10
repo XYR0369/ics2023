@@ -260,7 +260,7 @@ word_t expr(char *e, bool *success) {
   
   // tell between multiply & dereference
   for (int i = 0; i < nr_token; i ++) {
-  if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type != TK_DEC || tokens[i - 1].type != TK_HEX || tokens[i - 1].type != TK_REG) ) {
+  if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-'  || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == ')' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
     tokens[i].type = TK_DEREF;
   }
 }
